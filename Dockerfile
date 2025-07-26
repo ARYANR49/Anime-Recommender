@@ -16,7 +16,6 @@ RUN apt-get update && apt-get install -y \
 
 ## Copying ur all contents from local to app
 COPY . .
-COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 ## Run setup.py
 RUN pip install --no-cache-dir -e .
