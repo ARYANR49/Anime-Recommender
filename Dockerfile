@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
 
 ## Copying ur all contents from local to app
 COPY . .
-
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 ## Run setup.py
 RUN pip install --no-cache-dir -e .
 
@@ -24,4 +25,5 @@ RUN pip install --no-cache-dir -e .
 EXPOSE 8501
 
 # Run the app 
+
 CMD ["streamlit", "run", "app/app.py", "--server.port=8501", "--server.address=0.0.0.0","--server.headless=true"]
