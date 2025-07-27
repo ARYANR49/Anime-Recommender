@@ -17,7 +17,7 @@ spec:
       containers:
       - name: llmops-container
         image: llmops-app:faiss  # Use local image
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 8501
         envFrom:
@@ -30,10 +30,11 @@ kind: Service
 metadata:
   name: llmops-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: llmops
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8501
+      nodePort: 30036
