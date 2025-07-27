@@ -1,73 +1,3 @@
-# # import sys
-# # import os
-
-# # # Add project root to sys.path
-# # project_root = os.path.abspath(os.path.join(os.getcwd(), ".."))
-# # sys.path.append(project_root)
-
-# # import streamlit as st
-# # from pipeline.pipeline import AnimeRecommendationPipeline
-# # from dotenv import load_dotenv
-
-# # st.set_page_config(page_title="Anime Recommender",layout="wide")
-
-# # load_dotenv()
-
-# # @st.cache_resource
-# # def init_pipeline():
-# #     return AnimeRecommendationPipeline()
-
-# # pipeline = init_pipeline()
-
-# # st.title("Anime Recommender System")
-
-# # query = st.text_input("Enter your anime prefernces eg. : light hearted anime with school settings")
-# # if query:
-# #     with st.spinner("Fetching recommendations for you....."):
-# #         response = pipeline.recommend(query)
-# #         st.markdown("### Recommendations")
-# #         st.write(response)
-
-# import sys
-# import os
-
-# # ✅ Step 1: Ensure project root is in sys.path
-# current_dir = os.path.dirname(os.path.abspath(__file__))
-# project_root = os.path.abspath(os.path.join(current_dir, ".."))
-# if project_root not in sys.path:
-#     sys.path.append(project_root)
-
-# # ✅ Step 2: Imports
-# import streamlit as st
-# from pipeline.pipeline import AnimeRecommendationPipeline
-# from dotenv import load_dotenv
-
-# # ✅ Step 3: Streamlit page config
-# st.set_page_config(page_title="Anime Recommender", layout="wide")
-
-# # ✅ Step 4: Load environment variables
-# load_dotenv()
-
-# # ✅ Step 5: Initialize pipeline (cached)
-# @st.cache_resource
-# def init_pipeline():
-#     return AnimeRecommendationPipeline()
-
-# pipeline = init_pipeline()
-
-# # ✅ Step 6: UI
-# st.title("Anime Recommender System")
-
-# query = st.text_input("Enter your anime preferences, e.g.: light-hearted anime with school settings")
-
-# if query:
-#     with st.spinner("Fetching recommendations for you..."):
-#         response = pipeline.recommend(query)
-#         st.markdown("### Recommendations")
-#         st.write(response)
-
-
-
 import sys
 import os
 
@@ -110,6 +40,13 @@ st.markdown("""
             margin-bottom: 1rem;
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
+         .intro {
+            background-color: #1e222d;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -130,14 +67,30 @@ if query:
     with st.spinner("Thinking hard..."):
         try:
             result = pipeline.recommend(query)
-
+            
             st.markdown("### 🎯 Recommendations")
             if isinstance(result, str):
                 recs = result.strip().split("\n\n")
+                x=len(recs)
                 for i, rec in enumerate(recs, 1):
-                    st.markdown(f"""
+                    if i==x:
+                       st.markdown(f"""
+                       <div class='intro'>
+                            <h4>Conclusion</h4>
+                            <p>{rec.strip()}</p>
+                        </div>
+                    """, unsafe_allow_html=True)
+                    elif i==1:
+                     st.markdown(f"""
+                        <div class='intro'>
+                            <h4>Introduction</h4>
+                            <p>{rec.strip()}</p>
+                        </div>
+                    """, unsafe_allow_html=True)
+                    else:
+                     st.markdown(f"""
                         <div class='recommendation-card'>
-                            <h4>✨ Recommendation {i}</h4>
+                            <h4>✨ Recommendation</h4>
                             <p>{rec.strip()}</p>
                         </div>
                     """, unsafe_allow_html=True)
